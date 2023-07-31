@@ -1,0 +1,9 @@
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  grid-template-rows: repeat(3, 200px);
+}
+
+.cell {
+  border: 1px solid #000000;
+}

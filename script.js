@@ -1,18 +1,28 @@
 //Module that houses the logic for the game board.
 const gameBoard = (() => {
-  const board = ["X", "O", "O", "X", "X", "O", "O", "X", "X"];
-
-  const getBoard = () => board;
+  const board = [];
 
   const displayBoard = () => {
-    for (let i = 0; i < board.length; i++) {
-      const cells = document.querySelectorAll(".cell");
-      cells[i].textContent = board[i];
-      console.log(board[i]);
-    }
+    const cells = document.querySelectorAll(".cell");
+
+    cells.forEach((cell, index) => {
+      cell.addEventListener("click", () => {
+        if (cell.textContent === "") {
+          const currentPlayer = getCurrentPlayer();
+          board[index] = currentPlayer;
+          cell.textContent = currentPlayer;
+          console.log(board);
+        }
+      });
+    });
+
+    const getCurrentPlayer = () => {
+      const radioX = document.getElementById("chooseX");
+      return radioX.checked ? "X" : "O";
+    };
   };
 
-  return { getBoard, displayBoard };
+  return { displayBoard };
 })();
 
 gameBoard.displayBoard();

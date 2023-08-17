@@ -5,7 +5,11 @@ const Player = (name, symbol) => {
 
 //Module that houses the logic for the game board.
 const gameBoard = (() => {
-  const board = [];
+  //Array to store players symbols.
+  const board = ["", "", "", "", "", "", "", "", ""];
+
+  //Function to retrieve the board in another module.
+  const getBoard = () => board;
 
   //Function that displays the game board.
   const displayBoard = () => {
@@ -16,6 +20,7 @@ const gameBoard = (() => {
         if (cell.textContent === "") {
           board[index] = gameFlow.getCurrentPlayer();
           cell.textContent = gameFlow.getCurrentPlayer();
+          gameFlow.checkWinner();
           gameFlow.PlayerTurn();
           console.log(board);
         }
@@ -23,27 +28,64 @@ const gameBoard = (() => {
     });
   };
 
-  return { displayBoard };
+  return { displayBoard, getBoard };
 })();
 
 gameBoard.displayBoard();
 
 //Module to control the flow of the game.
 const gameFlow = (() => {
-  //Creates new players and sets the current player
+  //Creates new players and sets the current player.
   const player1 = Player("Player 1", "X");
   const player2 = Player("Player 2", "O");
   let activePlayer = player1;
 
-  //function that handles the players turns
+  //function that handles the players turns.
   const PlayerTurn = () => {
     activePlayer = activePlayer === player1 ? player2 : player1;
   };
 
-  //function to get the current players symbol
+  //function to get the current players symbol.
   const getCurrentPlayer = () => {
     return activePlayer.symbol;
   };
 
-  return { getCurrentPlayer, PlayerTurn };
+  //Function to declare winner or tie.
+  const checkWinner = () => {
+    //Variable to indicate if a winner is declared or not.
+    let winnerDeclared = false;
+    //Array of arrays depicting all possible win conditions.
+    const winConditions = [
+      [1, 2, 3],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    //For loop looping through win conditions.
+    for (condition of winConditions) {
+      const [a, b, c] = condition;
+      const cellA = gameBoard.getBoard()[a];
+      const cellB = gameBoard.getBoard()[b];
+      const cellC = gameBoard.getBoard()[c];
+
+      if (cellA && cellA === cellB && cellA === cellC) {
+        winnerDeclared = true;
+        console.log(`${cellA === "X" ? "Player 1" : "Player 2"} Wins!`);
+        return;
+      }
+    }
+
+    //If statement to declare tie.
+    const allCellsFilled = gameBoard.getBoard().every((cell) => cell !== "");
+    if (allCellsFilled === true && winnerDeclared === false) {
+      console.log("It's A Tie!");
+    }
+  };
+
+  return { getCurrentPlayer, PlayerTurn, checkWinner };
 })();

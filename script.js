@@ -6,7 +6,7 @@ const Player = (name, symbol) => {
 //Module that houses the logic for the game board.
 const gameBoard = (() => {
   //Array to store players symbols.
-  const board = ["", "", "", "", "", "", "", "", ""];
+  let board = ["", "", "", "", "", "", "", "", ""];
 
   //Function to retrieve the board in another module.
   const getBoard = () => board;
@@ -28,7 +28,17 @@ const gameBoard = (() => {
     });
   };
 
-  return { displayBoard, getBoard };
+  //Function to reset the game board.
+  const resetBoard = () => {
+    board = ["", "", "", "", "", "", "", "", ""];
+
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.textContent = "";
+    });
+  };
+
+  return { displayBoard, getBoard, resetBoard };
 })();
 
 gameBoard.displayBoard();
@@ -96,6 +106,13 @@ const gameFlow = (() => {
       console.log("It's A Tie!");
     }
   };
+
+  const resetBtn = document.querySelector(".resetBtn");
+  resetBtn.addEventListener("click", () => {
+    gameBoard.resetBoard();
+    winnerDeclared = false;
+    gameOver = false;
+  });
 
   return { getCurrentPlayer, PlayerTurn, checkWinner, isGameOver };
 })();

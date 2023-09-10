@@ -56,7 +56,7 @@ const gameFlow = (() => {
     let winnerDeclared = false;
     //Array of arrays depicting all possible win conditions.
     const winConditions = [
-      [1, 2, 3],
+      [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
       [0, 3, 6],

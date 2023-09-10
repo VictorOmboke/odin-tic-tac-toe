@@ -17,7 +17,7 @@ const gameBoard = (() => {
 
     cells.forEach((cell, index) => {
       cell.addEventListener("click", () => {
-        if (cell.textContent === "") {
+        if (!gameFlow.isGameOver() && cell.textContent === "") {
           board[index] = gameFlow.getCurrentPlayer();
           cell.textContent = gameFlow.getCurrentPlayer();
           gameFlow.checkWinner();
@@ -50,10 +50,19 @@ const gameFlow = (() => {
     return activePlayer.symbol;
   };
 
+  //variable to indicate if game is over.
+  let gameOver = false;
+
+  //Function to retrieve gameOver variable.
+  const isGameOver = () => {
+    return gameOver;
+  };
+
   //Function to declare winner or tie.
   const checkWinner = () => {
     //Variable to indicate if a winner is declared or not.
     let winnerDeclared = false;
+
     //Array of arrays depicting all possible win conditions.
     const winConditions = [
       [0, 1, 2],
@@ -75,6 +84,7 @@ const gameFlow = (() => {
 
       if (cellA && cellA === cellB && cellA === cellC) {
         winnerDeclared = true;
+        gameOver = true;
         console.log(`${cellA === "X" ? "Player 1" : "Player 2"} Wins!`);
         return;
       }
@@ -87,5 +97,5 @@ const gameFlow = (() => {
     }
   };
 
-  return { getCurrentPlayer, PlayerTurn, checkWinner };
+  return { getCurrentPlayer, PlayerTurn, checkWinner, isGameOver };
 })();

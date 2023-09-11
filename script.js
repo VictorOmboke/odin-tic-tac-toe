@@ -45,6 +45,9 @@ gameBoard.displayBoard();
 
 //Module to control the flow of the game.
 const gameFlow = (() => {
+  //Dom element for  display.
+  const display = document.querySelector(".display");
+
   //Creates new players and sets the current player.
   const player1 = Player("Player 1", "X");
   const player2 = Player("Player 2", "O");
@@ -95,6 +98,9 @@ const gameFlow = (() => {
       if (cellA && cellA === cellB && cellA === cellC) {
         winnerDeclared = true;
         gameOver = true;
+        display.textContent = `${
+          cellA === "X" ? "Player 1" : "Player 2"
+        } Wins!`;
         console.log(`${cellA === "X" ? "Player 1" : "Player 2"} Wins!`);
         return;
       }
@@ -103,13 +109,16 @@ const gameFlow = (() => {
     //If statement to declare tie.
     const allCellsFilled = gameBoard.getBoard().every((cell) => cell !== "");
     if (allCellsFilled === true && winnerDeclared === false) {
+      display.textContent = "It's a Tie!";
       console.log("It's A Tie!");
     }
   };
 
+  //Event Listener to reset game.
   const resetBtn = document.querySelector(".resetBtn");
   resetBtn.addEventListener("click", () => {
     gameBoard.resetBoard();
+    display.textContent = "";
     winnerDeclared = false;
     gameOver = false;
   });

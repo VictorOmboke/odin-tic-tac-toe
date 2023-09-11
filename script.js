@@ -20,8 +20,9 @@ const gameBoard = (() => {
         if (!gameFlow.isGameOver() && cell.textContent === "") {
           board[index] = gameFlow.getCurrentPlayer();
           cell.textContent = gameFlow.getCurrentPlayer();
-          gameFlow.checkWinner();
           gameFlow.PlayerTurn();
+          gameFlow.display.textContent = `Player ${gameFlow.getCurrentPlayer()}'s Turn`;
+          gameFlow.checkWinner();
           console.log(board);
         }
       });
@@ -41,13 +42,8 @@ const gameBoard = (() => {
   return { displayBoard, getBoard, resetBoard };
 })();
 
-gameBoard.displayBoard();
-
 //Module to control the flow of the game.
 const gameFlow = (() => {
-  //Dom element for  display.
-  const display = document.querySelector(".display");
-
   //Creates new players and sets the current player.
   const player1 = Player("Player 1", "X");
   const player2 = Player("Player 2", "O");
@@ -62,6 +58,10 @@ const gameFlow = (() => {
   const getCurrentPlayer = () => {
     return activePlayer.symbol;
   };
+
+  //Dom element for  display.
+  const display = document.querySelector(".display");
+  display.textContent = `Player ${getCurrentPlayer()}'s Turn`;
 
   //variable to indicate if game is over.
   let gameOver = false;
@@ -95,6 +95,7 @@ const gameFlow = (() => {
       const cellB = gameBoard.getBoard()[b];
       const cellC = gameBoard.getBoard()[c];
 
+      //If statement to determine winner.
       if (cellA && cellA === cellB && cellA === cellC) {
         winnerDeclared = true;
         gameOver = true;
@@ -123,5 +124,7 @@ const gameFlow = (() => {
     gameOver = false;
   });
 
-  return { getCurrentPlayer, PlayerTurn, checkWinner, isGameOver };
+  return { getCurrentPlayer, PlayerTurn, checkWinner, isGameOver, display };
 })();
+
+gameBoard.displayBoard();

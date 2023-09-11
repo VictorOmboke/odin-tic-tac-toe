@@ -119,7 +119,8 @@ const gameFlow = (() => {
   const resetBtn = document.querySelector(".resetBtn");
   resetBtn.addEventListener("click", () => {
     gameBoard.resetBoard();
-    display.textContent = "";
+    activePlayer = player1;
+    display.textContent = `Player ${getCurrentPlayer()}'s Turn`;
     winnerDeclared = false;
     gameOver = false;
   });

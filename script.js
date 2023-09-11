@@ -23,7 +23,6 @@ const gameBoard = (() => {
           gameFlow.PlayerTurn();
           gameFlow.display.textContent = `Player ${gameFlow.getCurrentPlayer()}'s Turn`;
           gameFlow.checkWinner();
-          console.log(board);
         }
       });
     });
@@ -102,7 +101,6 @@ const gameFlow = (() => {
         display.textContent = `${
           cellA === "X" ? "Player 1" : "Player 2"
         } Wins!`;
-        console.log(`${cellA === "X" ? "Player 1" : "Player 2"} Wins!`);
         return;
       }
     }
@@ -111,7 +109,6 @@ const gameFlow = (() => {
     const allCellsFilled = gameBoard.getBoard().every((cell) => cell !== "");
     if (allCellsFilled === true && winnerDeclared === false) {
       display.textContent = "It's a Tie!";
-      console.log("It's A Tie!");
     }
   };
 
